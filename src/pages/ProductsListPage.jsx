@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { useProducts } from "../hooks/useProducts";
 import { useCategories } from "../hooks/useCategories";
 import ProductCard from "../components/ProductCard";
@@ -10,27 +10,38 @@ import ErrorMessage from "../components/ErrorMessage";
 const ProductsListPage = () => {
   const { products, loading, error } = useProducts();
   const { categories } = useCategories();
-  const [filteredProducts, setFilteredProducts] = useState([]);
+  // const [filteredProducts, setFilteredProducts] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedCategory, setSelectedCategory] = useState(null);
+  // commented the useeffect and added filteredProducts variable
+  const filteredProducts = products.filter((product) => {
+  const matchesSearch = product.category.name
+    .toLowerCase()
+    .includes(searchTerm.toLowerCase());
 
-  useEffect(() => {
-    let result = products;
+  const matchesCategory =
+    !selectedCategory || product.category.id === selectedCategory;
 
-    if (searchTerm) {
-      result = result.filter((product) =>
-        product.category.name.toLowerCase().includes(searchTerm.toLowerCase())
-      );
-    }
+  return matchesSearch && matchesCategory;
+});
 
-    if (selectedCategory) {
-      result = result.filter(
-        (product) => product.category.id !== selectedCategory
-      );
-    }
+  // useEffect(() => {
+  //   let result = products;
 
-    setFilteredProducts(result);
-  }, [products, searchTerm, selectedCategory]);
+  //   if (searchTerm) {
+  //     result = result.filter((product) =>
+  //       product.category.name.toLowerCase().includes(searchTerm.toLowerCase())
+  //     );
+  //   }
+
+  //   if (selectedCategory) {
+  //     result = result.filter(
+  //       (product) => product.category.id !== selectedCategory
+  //     );
+  //   }
+
+  //   setFilteredProducts(result);
+  // }, [products, searchTerm, selectedCategory]);
 
   const handleSearch = (term) => {
     setSearchTerm(term);
@@ -70,8 +81,9 @@ const ProductsListPage = () => {
 
         {filteredProducts.length > 0 ? (
           <div className="product-grid grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-8 animate-fade-in">
+          {/* added key to avoid console error */}
             {filteredProducts.map((product) => (
-              <ProductCard product={product} />
+              <ProductCard key={product.id} product={product} />
             ))}
           </div>
         ) : (
