@@ -29,10 +29,16 @@ export const CartProvider = ({ children }) => {
   const addToCart = (product) => {
     setCart([...cart, { ...product, quantity: 1 }]);
   };
+// commented the old removeFromCart function and added a new one to fix the bug of removing the wrong item from the cart
+  // const removeFromCart = (productId) => {
+  //   setCart(cart.filter((item) => item.productId !== productId));
+  // };
 
   const removeFromCart = (productId) => {
-    setCart(cart.filter((item) => item.productId !== productId));
-  };
+  setCart((currentCart) =>
+    currentCart.filter((item) => item.id !== productId)
+  );
+};
 
   const updateQuantity = (productId, quantity) => {
     setCart(
