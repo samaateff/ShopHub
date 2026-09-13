@@ -16,10 +16,19 @@ export const fetchProducts = async () => {
     throw error;
   }
 };
-
+// commented the old fetchProductById function and added a new one to match the correct endpoint
+// export const fetchProductById = async (id) => {
+//   const response = await api.get(`/product/${id}`);
+//   return response.data;
+// };
 export const fetchProductById = async (id) => {
-  const response = await api.get(`/product/${id}`);
-  return response.data;
+try {
+const response = await api.get(`/products/${id}`);
+return response.data;
+} catch (error) {
+console.error("Error fetching product:", error);
+throw error;
+}
 };
 
 // Fetch all categories
