@@ -45,8 +45,8 @@ const ProductCard = ({ product }) => {
               {product.category.name}
             </span>
           </div>
-
-          <h3 className="text-lg font-bold text-gray-900 mb-2 line-clamp-2 group-hover:text-indigo-600 transition-colors">
+{/* added h-14 to the h3 to match the design */}
+          <h3 className=" h-14 text-lg font-bold text-gray-900 mb-2 line-clamp-2 group-hover:text-indigo-600 transition-colors">
             {product.title}
           </h3>
 
